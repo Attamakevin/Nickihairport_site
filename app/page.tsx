@@ -1,18 +1,11 @@
 import Link from "next/link";
-import Image from "next/image";
 import { supabaseServer } from "@/lib/supabase-server";
 import ProductCard from "@/components/ProductCard";
-import { SITE, whatsappLink } from "@/lib/config";
+import Hero from "@/components/Hero";
+import { SITE } from "@/lib/config";
 import type { Category, Product } from "@/lib/types";
 
 export const revalidate = 60;
-
-const perks = [
-  { t: "100% Premium Raw Donor Hair", d: "Sourced, graded and sold as pure raw donor hair." },
-  { t: "Vietnamese & Filipino Hairs", d: "Choose your texture, length and colour." },
-  { t: "Wigs, Bundles & Extensions", d: "Ready-to-wear units and custom bundles." },
-  { t: "Hair Installation", d: "Expert installation at our Nyanya Market shop." },
-];
 
 export default async function Home() {
   const supabase = supabaseServer();
@@ -29,37 +22,7 @@ export default async function Home() {
 
   return (
     <>
-      <section className="relative overflow-hidden">
-        <div className="container-x grid items-center gap-10 py-12 md:grid-cols-2 md:py-20">
-          <div>
-            <p className="label !text-gold-300">Abuja · Nyanya Market</p>
-            <h1 className="font-display text-5xl font-bold leading-[1.05] sm:text-6xl lg:text-7xl">
-              Luxury Hair.<br /><span className="gold-text italic">Luxury Confidence.</span>
-            </h1>
-            <p className="mt-6 max-w-lg text-lg text-white/70">{SITE.description}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/shop" className="btn btn-gold">Shop the collection</Link>
-              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn btn-outline">Chat on WhatsApp</a>
-            </div>
-          </div>
-          <div className="relative mx-auto w-full max-w-md">
-            <div className="absolute -inset-4 rounded-[2rem] bg-gold-gradient opacity-25 blur-2xl" aria-hidden />
-            <Image src="/flyer.jpg" alt="Nicki Hairport luxury raw donor hair" width={1254} height={1254} priority sizes="(max-width:768px) 90vw, 450px" className="relative rounded-[2rem] border border-gold-500/40 shadow-gold" />
-          </div>
-        </div>
-      </section>
-
-      <section className="container-x">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {perks.map((p) => (
-            <div key={p.t} className="card p-5">
-              <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-gold-gradient text-black">✓</div>
-              <h3 className="font-display text-lg">{p.t}</h3>
-              <p className="mt-1 text-sm text-white/60">{p.d}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <Hero />
 
       <section className="container-x mt-20">
         <h2 className="font-display text-3xl sm:text-4xl">Shop by <span className="gold-text italic">texture</span></h2>

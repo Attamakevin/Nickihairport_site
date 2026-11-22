@@ -28,10 +28,20 @@ const securityHeaders = [
   { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
 ];
 
+// Server Actions (admin login etc.) reject requests whose Origin differs from the forwarded host.
+// GitHub Codespaces / dev tunnels rewrite the host, so allow them in DEVELOPMENT only.
+// For a custom setup, add comma-separated hosts in ALLOWED_ORIGINS (e.g. "admin.example.com").
+const extraOrigins = (process.env.ALLOWED_ORIGINS ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+const allowedOrigins = [
+  ...(isDev ? ["localhost:3000", "*.app.github.dev", "*.github.dev", "*.preview.app.github.dev"] : []),
+  ...extraOrigins,
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  experimental: { serverActions: { allowedOrigins } },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [{ protocol: "https", hostname: supabaseHost }],
