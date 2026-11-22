@@ -1,0 +1,27 @@
+"use client";
+import { usePathname } from "next/navigation";
+import { whatsappLink } from "@/lib/config";
+
+export default function WhatsAppButton() {
+  const path = usePathname();
+  if (path?.startsWith("/admin")) return null;
+  return (
+    <a
+      href={whatsappLink()}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat with Nicki Hairport on WhatsApp"
+      className="group fixed bottom-5 right-5 z-50 flex items-center gap-3 sm:bottom-8 sm:right-8"
+    >
+      <span className="pointer-events-none hidden translate-x-2 rounded-full border border-gold-500/40 bg-ink-800/95 px-4 py-2 text-sm text-gold-100 opacity-0 shadow-gold transition group-hover:translate-x-0 group-hover:opacity-100 sm:block">
+        Chat with us
+      </span>
+      <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-[0_8px_30px_rgba(37,211,102,.45)] ring-2 ring-gold-400/70 transition group-hover:scale-110">
+        <span className="absolute inset-0 animate-ping rounded-full bg-[#25D366]/40" aria-hidden />
+        <svg viewBox="0 0 32 32" className="relative h-8 w-8 fill-white" aria-hidden>
+          <path d="M16.04 3C9.4 3 4 8.4 4 15.03c0 2.12.55 4.18 1.6 6L4 28l7.2-1.88a12.02 12.02 0 0 0 4.84 1.02h.01C22.68 27.14 28 21.74 28 15.1 28 8.4 22.68 3 16.04 3zm0 21.97h-.01a9.98 9.98 0 0 1-5.08-1.39l-.36-.22-4.27 1.12 1.14-4.16-.24-.38a9.9 9.9 0 0 1-1.53-5.3c0-5.5 4.5-9.97 10.03-9.97 2.68 0 5.19 1.04 7.08 2.93a9.9 9.9 0 0 1 2.93 7.05c0 5.5-4.5 10.32-10.03 10.32zm5.5-7.46c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.08-.3-.15-1.28-.47-2.43-1.5-.9-.8-1.5-1.8-1.68-2.1-.18-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.07-.15-.68-1.64-.93-2.25-.25-.58-.5-.5-.68-.5h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.02-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.13 3.25 5.15 4.55.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35z" />
+        </svg>
+      </span>
+    </a>
+  );
+}
