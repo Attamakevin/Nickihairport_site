@@ -52,7 +52,7 @@ export async function loginAction(_prev: { error?: string } | undefined, form: F
   if (error) {
     const problem = isDev ? envProblem() : null;
     if (problem) return deny(problem);
-    return deny(`Supabase rejected the sign-in (${error.status ?? "no status"}: ${error.message}). Project checked: ${process.env.NEXT_PUBLIC_SUPABASE_URL}. Check the password, that this user exists in THAT project, and that the user is confirmed.`);
+    return deny(`Supabase rejected the sign-in (${error.status ?? "no status"}: ${error.message}). Project checked: ${SUPABASE_URL}. Check the password, that this user exists in THAT project, and that the user is confirmed.`);
   }
 
   const { data: isAdmin, error: rpcError } = await supabase.rpc("is_admin");
@@ -142,7 +142,7 @@ export async function saveProduct(id: string | null, raw: unknown): Promise<Resu
   const d = parsed.data;
 
   // Only allow images from our own storage bucket
-  const base = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const base = SUPABASE_URL;
   if (d.images.some((u) => !u.startsWith(`${base}/storage/v1/object/public/product-images/`))) return fail("Invalid image URL.");
 
   const sb = ctx.supabase;
