@@ -17,22 +17,43 @@ export async function loginAction(_prev: { error?: string } | undefined, form: F
   const email = String(form.get("email") ?? "").trim().toLowerCase();
   const password = String(form.get("password") ?? "");
 
+  // Production always returns ONE generic message (no account enumeration).
+  // In development only, the real reason is shown and logged so setup problems are easy to find.
+  const isDev = process.env.NODE_ENV !== "production";
+  const deny = (reason: string) => {
+    console.error(`[admin-login] denied: ${reason}`);
+    return { error: isDev ? `Invalid email or password. [dev hint: ${reason}]` : "Invalid email or password." };
+  };
+
   // Throttle brute force per IP and per email
   if (!rateLimit(`login-ip:${ip}`, 10, 15 * 60_000).ok || !rateLimit(`login-email:${email}`, 5, 15 * 60_000).ok) {
     return { error: "Too many attempts. Try again in 15 minutes." };
   }
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+  if (!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(url) || anon.length < 20) {
+    return deny("Supabase URL or anon key is missing or looks wrong in your environment variables. Restart the dev server after changing them.");
+  }
   if (!z.string().email().safeParse(email).success || password.length < 8 || password.length > 200) {
-    return { error: "Invalid email or password." };
+    return deny("email format invalid or password shorter than 8 characters.");
   }
 
   const supabase = supabaseServer();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return { error: "Invalid email or password." }; // generic: no account enumeration
+  if (error) {
+    const host = new URL(url).hostname;
+    return deny(`Supabase rejected the sign-in (${error.status ?? "no status"}: ${error.message}). Project checked: ${host}. Check the password, that this user exists in THAT project, and that the user is confirmed.`);
+  }
 
-  const { data: isAdmin } = await supabase.rpc("is_admin");
+  const { data: isAdmin, error: rpcError } = await supabase.rpc("is_admin");
+  if (rpcError) {
+    await supabase.auth.signOut();
+    return deny(`password is correct, but the is_admin() check failed: ${rpcError.message}. Run supabase/schema.sql in the SQL Editor.`);
+  }
   if (isAdmin !== true) {
     await supabase.auth.signOut();
-    return { error: "Invalid email or password." };
+    return deny("password is correct, but this user is NOT in the admins table. Run the 'insert into public.admins' SQL with this exact email.");
   }
   redirect("/admin");
 }
