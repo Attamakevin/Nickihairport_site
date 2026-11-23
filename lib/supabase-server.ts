@@ -2,11 +2,12 @@ import "server-only";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
+import { SUPABASE_URL, SUPABASE_PUBLIC_KEY } from "./env";
 
 /** Per-request client acting as the signed-in user (or anon). RLS applies. */
 export function supabaseServer() {
   const cookieStore = cookies();
-  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+  return createServerClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
     cookies: {
       getAll: () => cookieStore.getAll(),
       setAll: (list: { name: string; value: string; options: CookieOptions }[]) => {
@@ -22,7 +23,7 @@ export function supabaseServer() {
 
 /** Service-role client. BYPASSES RLS. Use ONLY in trusted server code (checkout, webhook). */
 export function supabaseAdminService() {
-  return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
+  return createClient(SUPABASE_URL, (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY)!, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 }

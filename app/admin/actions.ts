@@ -7,11 +7,24 @@ import { z } from "zod";
 import { requireAdmin, supabaseServer } from "@/lib/supabase-server";
 import { rateLimit } from "@/lib/rate-limit";
 import { slugify } from "@/lib/format";
+import { SUPABASE_URL, SUPABASE_PUBLIC_KEY } from "@/lib/env";
 
 type Result = { ok: true } | { ok: false; error: string };
 const fail = (error: string): Result => ({ ok: false, error });
 
 /* ---------------- Auth ---------------- */
+// Development-only helper: explains exactly which Supabase env variable is wrong.
+function envProblem(): string | null {
+  const url = SUPABASE_URL;
+  const anon = SUPABASE_PUBLIC_KEY;
+  if (!url) return "NEXT_PUBLIC_SUPABASE_URL is empty or not set. Add it to .env.local (or Codespaces secrets) and restart `npm run dev`.";
+  if (/your-project|xxxx|example\.supabase/i.test(url)) return `NEXT_PUBLIC_SUPABASE_URL is still the placeholder (${url}). Paste your real Project URL from Supabase > Project Settings > API.`;
+  if (!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(url)) return `NEXT_PUBLIC_SUPABASE_URL has an unexpected format: "${url}". It must look like https://abcdxyz.supabase.co with nothing after .co (no /rest/v1, no quotes, no spaces).`;
+  if (!anon) return "No Supabase public key found. Set NEXT_PUBLIC_SUPABASE_ANON_KEY (or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) and redeploy.";
+  if (/your-anon|your_anon/i.test(anon) || anon.length < 20) return `The Supabase public key is still a placeholder or too short (length ${anon.length}). Paste the real anon / publishable key.`;
+  return null;
+}
+
 export async function loginAction(_prev: { error?: string } | undefined, form: FormData): Promise<{ error?: string }> {
   const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
   const email = String(form.get("email") ?? "").trim().toLowerCase();
@@ -30,11 +43,6 @@ export async function loginAction(_prev: { error?: string } | undefined, form: F
     return { error: "Too many attempts. Try again in 15 minutes." };
   }
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
-  if (!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(url) || anon.length < 20) {
-    return deny("Supabase URL or anon key is missing or looks wrong in your environment variables. Restart the dev server after changing them.");
-  }
   if (!z.string().email().safeParse(email).success || password.length < 8 || password.length > 200) {
     return deny("email format invalid or password shorter than 8 characters.");
   }
@@ -42,8 +50,9 @@ export async function loginAction(_prev: { error?: string } | undefined, form: F
   const supabase = supabaseServer();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) {
-    const host = new URL(url).hostname;
-    return deny(`Supabase rejected the sign-in (${error.status ?? "no status"}: ${error.message}). Project checked: ${host}. Check the password, that this user exists in THAT project, and that the user is confirmed.`);
+    const problem = isDev ? envProblem() : null;
+    if (problem) return deny(problem);
+    return deny(`Supabase rejected the sign-in (${error.status ?? "no status"}: ${error.message}). Project checked: ${process.env.NEXT_PUBLIC_SUPABASE_URL}. Check the password, that this user exists in THAT project, and that the user is confirmed.`);
   }
 
   const { data: isAdmin, error: rpcError } = await supabase.rpc("is_admin");
