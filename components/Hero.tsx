@@ -86,9 +86,9 @@ export default function Hero() {
       </div>
 
       {/* ===== Content ===== */}
-      <div className="container-x relative grid items-center gap-4 pb-6 pt-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-2 lg:pt-12">
+      <div className="container-x relative grid grid-cols-2 items-center gap-1 !px-2 pb-4 pt-4 md:gap-4 md:!px-6 md:grid-cols-[0.92fr_1.08fr] md:pb-6 md:pt-8 lg:gap-2 lg:!px-8 lg:pt-12">
         {/* Model */}
-        <div className="rise relative order-2 mx-auto w-full max-w-[520px] lg:order-1" style={{ ["--delay" as string]: ".15s" }}>
+        <div className="rise relative -ml-[14%] w-[118%] max-w-none md:mx-auto md:ml-0 md:w-full md:max-w-[520px]" style={{ ["--delay" as string]: ".15s" }}>
           <svg className="absolute left-1/2 top-[44%] h-[118%] w-[118%] -translate-x-1/2 -translate-y-1/2 overflow-visible" viewBox="0 0 400 400" fill="none" aria-hidden>
             <defs>
               <linearGradient id="ring-g" x1="0" y1="0" x2="1" y2="1">
@@ -118,59 +118,59 @@ export default function Hero() {
             } as React.CSSProperties}
           />
 
-          <div className="absolute bottom-6 left-0 z-20 flex items-center gap-2 rounded-full border border-gold-400/50 bg-black/70 px-4 py-2 text-xs text-gold-100 shadow-gold backdrop-blur sm:bottom-10">
+          <div className="absolute bottom-1 left-[17%] z-20 flex items-center gap-1 rounded-full border border-gold-400/50 bg-black/70 px-2 py-1 text-[8px] leading-none text-gold-100 shadow-gold backdrop-blur md:bottom-10 md:left-0 md:gap-2 md:px-4 md:py-2 md:text-xs">
             <Star size={14} /> 100% raw donor hair · Abuja
           </div>
         </div>
 
         {/* Brand copy (no head-and-hair drawing) */}
-        <div className="relative order-1 lg:order-2 lg:pl-6">
+        <div className="relative min-w-0 lg:pl-6">
           <h1 className="rise leading-[0.9]" style={{ ["--delay" as string]: ".15s", filter: "drop-shadow(0 4px 24px rgba(212,160,23,.45))" }}>
-            <span className="shimmer-text -ml-3 block py-1 pl-4 pr-6 font-display text-[5.25rem] font-bold italic sm:text-[7.5rem] lg:text-[9rem]">Nicki</span>
-            <span className="shimmer-text -ml-3 block pl-3 pr-4 font-display text-[3.4rem] font-extrabold sm:text-[5rem] lg:text-[6rem]">Hairport</span>
+            <span className="shimmer-text -ml-1 block pl-2 pr-3 font-display text-[16vw] font-bold italic md:-ml-3 md:py-1 md:pl-4 md:pr-6 md:text-[11.5vw] lg:text-[9rem]">Nicki</span>
+            <span className="shimmer-text -ml-1 block pl-1 pr-2 font-display text-[9.6vw] font-extrabold md:-ml-3 md:pl-3 md:pr-4 md:text-[7vw] lg:text-[6rem]">Hairport</span>
           </h1>
 
-          <p className="rise mt-5 font-display text-xl italic text-white sm:text-2xl" style={{ ["--delay" as string]: ".35s" }}>
+          <p className="rise mt-2 font-display text-[12px] italic leading-tight text-white md:mt-5 md:text-2xl" style={{ ["--delay" as string]: ".35s" }}>
             Luxury Hair. Luxury Confidence.
           </p>
-          <svg className="rise mt-1 h-4 w-72 max-w-full" viewBox="0 0 300 16" fill="none" aria-hidden style={{ ["--delay" as string]: ".4s" }}>
+          <svg className="rise mt-0.5 h-3 w-36 max-w-full md:mt-1 md:h-4 md:w-72" viewBox="0 0 300 16" fill="none" aria-hidden style={{ ["--delay" as string]: ".4s" }}>
             <path d="M0 12 C70 0, 130 0, 150 8 S 240 14, 300 4" stroke="url(#ring-g)" strokeWidth="3" strokeLinecap="round" />
           </svg>
 
-          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+          <ul className="mt-3 grid gap-1.5 md:mt-6 md:gap-3 lg:grid-cols-2">
             {services.map((s, i) => (
-              <li key={s} className="rise flex items-center gap-3 text-[15px] text-white/90" style={{ ["--delay" as string]: `${0.5 + i * 0.1}s` }}>
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-gold-400 bg-gold-500/15 text-gold-300 shadow-[0_0_14px_rgba(212,160,23,.5)]">
-                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth="3" aria-hidden><path d="M5 12.5l4.5 4.5L19 7.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              <li key={s} className="rise flex items-center gap-1.5 text-[10.5px] leading-tight text-white/90 md:gap-3 md:text-[15px]" style={{ ["--delay" as string]: `${0.5 + i * 0.1}s` }}>
+                <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-gold-400 bg-gold-500/15 text-gold-300 shadow-[0_0_10px_rgba(212,160,23,.5)] md:h-7 md:w-7">
+                  <svg viewBox="0 0 24 24" className="h-2.5 w-2.5 fill-none stroke-current md:h-4 md:w-4" strokeWidth="3" aria-hidden><path d="M5 12.5l4.5 4.5L19 7.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </span>
                 {s}
               </li>
             ))}
           </ul>
 
-          <div className="rise mt-8 flex flex-wrap gap-3" style={{ ["--delay" as string]: ".9s" }}>
-            <Link href="/shop" className="btn btn-gold">Shop the collection</Link>
-            <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn btn-outline">Order on WhatsApp</a>
+          <div className="rise mt-3 flex flex-wrap gap-1.5 md:mt-8 md:gap-3" style={{ ["--delay" as string]: ".9s" }}>
+            <Link href="/shop" className="btn btn-gold !px-3 !py-2 text-[10px] md:!px-6 md:!py-3 md:text-sm">Shop the collection</Link>
+            <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn btn-outline !px-3 !py-2 text-[10px] md:!px-6 md:!py-3 md:text-sm">Order on WhatsApp</a>
           </div>
 
           <a
             href={whatsappLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="rise mt-7 flex w-full max-w-xl flex-wrap items-center justify-between gap-x-6 gap-y-2 rounded-full bg-gold-gradient px-5 py-3 text-black shadow-gold ring-1 ring-gold-200/60 transition hover:brightness-110"
+            className="rise mt-3 flex w-full max-w-xl flex-wrap items-center justify-between gap-x-6 gap-y-0.5 rounded-xl bg-gold-gradient px-2.5 py-1.5 text-black shadow-gold ring-1 ring-gold-200/60 transition hover:brightness-110 md:mt-7 md:gap-y-2 md:rounded-full md:px-5 md:py-3"
             style={{ ["--delay" as string]: "1s" }}
           >
-            <span className="flex items-center gap-2 text-lg font-extrabold tracking-wide">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#25D366]">
-                <svg viewBox="0 0 32 32" className="h-5 w-5 fill-white" aria-hidden><path d="M16.04 3C9.4 3 4 8.4 4 15.03c0 2.12.55 4.18 1.6 6L4 28l7.2-1.88a12.02 12.02 0 0 0 4.84 1.02C22.68 27.14 28 21.74 28 15.1 28 8.4 22.68 3 16.04 3zm5.5 14.04c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.08-.3-.15-1.28-.47-2.43-1.5-.9-.8-1.5-1.8-1.68-2.1-.18-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.07-.15-.68-1.64-.93-2.25-.25-.58-.5-.5-.68-.5h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.02-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.13 3.25 5.15 4.55 2.25.97 2.7.78 3.2.73.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35z" /></svg>
+            <span className="flex items-center gap-1.5 text-[12px] font-extrabold tracking-wide md:gap-2 md:text-lg">
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#25D366] md:h-8 md:w-8">
+                <svg viewBox="0 0 32 32" className="h-2.5 w-2.5 fill-white md:h-5 md:w-5" aria-hidden><path d="M16.04 3C9.4 3 4 8.4 4 15.03c0 2.12.55 4.18 1.6 6L4 28l7.2-1.88a12.02 12.02 0 0 0 4.84 1.02C22.68 27.14 28 21.74 28 15.1 28 8.4 22.68 3 16.04 3zm5.5 14.04c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.08-.3-.15-1.28-.47-2.43-1.5-.9-.8-1.5-1.8-1.68-2.1-.18-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.07-.15-.68-1.64-.93-2.25-.25-.58-.5-.5-.68-.5h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.02-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.13 3.25 5.15 4.55 2.25.97 2.7.78 3.2.73.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35z" /></svg>
               </span>
               {SITE.phoneDisplay}
             </span>
-            <span className="text-sm font-semibold">{SITE.email}</span>
+            <span className="break-all text-[9px] font-semibold md:text-sm">{SITE.email}</span>
           </a>
 
-          <p className="rise mt-4 flex items-center gap-2 text-sm text-white/75" style={{ ["--delay" as string]: "1.1s" }}>
-            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-gold-400" aria-hidden><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" /></svg>
+          <p className="rise mt-2 flex items-start gap-1 text-[9px] leading-tight text-white/75 md:mt-4 md:items-center md:gap-2 md:text-sm" style={{ ["--delay" as string]: "1.1s" }}>
+            <svg viewBox="0 0 24 24" className="h-3 w-3 shrink-0 fill-gold-400 md:h-5 md:w-5" aria-hidden><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" /></svg>
             {SITE.address}
           </p>
         </div>
@@ -178,7 +178,7 @@ export default function Hero() {
 
       <div className="relative mt-4 flex items-center justify-center gap-4 px-4 pb-8">
         <span className="h-px flex-1 bg-gradient-to-r from-transparent via-gold-500/70 to-gold-300" />
-        <span className="rounded-full border border-gold-400/60 bg-gradient-to-r from-ink-800 via-ink-600 to-ink-800 px-6 py-2 font-display text-lg italic text-gold-200 shadow-gold sm:text-2xl">
+        <span className="rounded-full border border-gold-400/60 bg-gradient-to-r from-ink-800 via-ink-600 to-ink-800 px-4 py-1.5 font-display text-base italic text-gold-200 shadow-gold md:px-6 md:py-2 md:text-2xl">
           Dealers of All Raw Donor Hair
         </span>
         <span className="h-px flex-1 bg-gradient-to-l from-transparent via-gold-500/70 to-gold-300" />
